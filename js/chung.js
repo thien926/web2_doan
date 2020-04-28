@@ -1,14 +1,19 @@
 document.getElementById("list_danhmuc").onclick = function() {showdanhmuc();};
 document.getElementById("icon_danhmuc").onclick = function() {showdanhmuc();};
 // Form đăng kí
-document.getElementById("div_dki_date").onchange = function() {onchange_date();};
-document.getElementById("div_dki_month").onchange = function() {onchange_date();};
-document.getElementById("div_dki_year").onchange = function() {onchange_date();};
-document.forms.namedItem("form_dki").addEventListener("submit", (e) => {
+var s = location.href;
+if(s.indexOf("dispatch=useradd") != -1){
+	document.getElementById("div_dki_date").onchange = function() {onchange_date();};
+	document.getElementById("div_dki_month").onchange = function() {onchange_date();};
+	document.getElementById("div_dki_year").onchange = function() {onchange_date();};
+	document.forms.namedItem("form_dki").addEventListener("submit", (e) => {
+		kiem_tra_dki(e);
 
-	kiem_tra_dki(e);
+	});
+}
 
-});
+
+
 // Kết thức form đăng kí
 
 function showdanhmuc(){
@@ -38,6 +43,7 @@ function kiem_tra_dki(e){
 	var date = document.forms.namedItem("form_dki").date;
 	var month = document.forms.namedItem("form_dki").month;
 	var year = document.forms.namedItem("form_dki").year;
+	var address = document.forms.namedItem("form_dki").address;
 
 	document.getElementById('note_name').innerHTML = "";
 	document.getElementById('note_user').innerHTML = "";
@@ -59,25 +65,29 @@ function kiem_tra_dki(e){
 		t = false;
 	}
 
-	// Kiểm tra tên đăng nhập
+	// Kiểm tra tên tài khoản
 	if(user.value == ""){
-		document.getElementById('note_user').innerHTML = "Tên đăng nhập không được rỗng!";
+		document.getElementById('note_user').innerHTML = "Tên tài khoản không được rỗng!";
 		t = false;
 	}
 	else if(user.value.length < 5){
-		document.getElementById('note_user').innerHTML = "Tên đăng nhập phải bằng hoặc hơn 5 kí tự!";
+		document.getElementById('note_user').innerHTML = "Tên tài khoản phải bằng hoặc hơn 5 kí tự!";
 		t = false;
 	}
 	else{
 		format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 		if(format.test(user.value)){
-			document.getElementById('note_user').innerHTML = "Tên đăng nhập không chứa các kí tự đặc biệt!"
+			document.getElementById('note_user').innerHTML = "Tên tài khoản không chứa các kí tự đặc biệt!"
+			t = false;
+		}
+		else if(kiem_tra_chuoi_co_dau(user.value)){
+			document.getElementById('note_user').innerHTML = "Tên tài khoản không chứa các kí tự có dấu!"
 			t = false;
 		}
 		else{
 			format = /[A-Z]{1}/i;
 			if(!format.test(user.value)){
-				document.getElementById('note_user').innerHTML = "Tên đăng nhập phải chứa ít nhất 1 kí tự chữ";
+				document.getElementById('note_user').innerHTML = "Tên tài khoản phải chứa ít nhất 1 kí tự chữ";
 				t = false;
 			}
 			//Cái này cần chỉnh sửa do chưa có database
@@ -91,6 +101,7 @@ function kiem_tra_dki(e){
 			// }
 		}
 	}
+
 
 	// Kiểm tra password
 	if(pass.value == ""){
@@ -127,6 +138,7 @@ function kiem_tra_dki(e){
 		}
 	}
 
+
 	// Kiểm tra mail
 	if(mail.value == ""){
 		document.getElementById('note_mail').innerHTML = "Thư điện tử không được rỗng!";
@@ -149,7 +161,6 @@ function kiem_tra_dki(e){
 		document.getElementById('note_sex').innerHTML = "Giới tính phải được chọn!";
 		t = false;
 	}
-
 	// Kiểm tra ngày sinh
 	var s = "";
 	var t_date = true;
@@ -163,16 +174,65 @@ function kiem_tra_dki(e){
 		t_date = false;
 		s += "tháng, ";
 	}
-	if(parseInt(date.value) == 0){
+	if(parseInt(year.value) == 0){
 		t = false;
 		t_date = false;
 		s += "năm, ";
 	}
+	
+	if(!t_date){
+		s = s.trim();
+		s = s[0].toUpperCase() + s.slice(1, s.length-1) + " không được rỗng!";
+		document.getElementById('note_date').innerHTML = s;
+	}
 
-	s = s.trim();
-	s = s[0].toUpperCase() + s.slice(1, s.length-1) + " không được rỗng!";
-	if(!t_date) document.getElementById('note_date').innerHTML = s;
+	//        Phần chỉnh sửa
+	var thoigian = date.value + "-" + month.value + "-" + year.value;
+	
+	if(t){
+		$.ajax({
+	        url: "php/xulytaikhoan.php",
+	        type: "post",
+	        dataType: "json",
+	        timeout: 1500,
+	        data: {
+	            request: 'dangky',
+	            data_name: name.value,
+	            data_user: user.value,
+	            data_pass: pass.value,
+	            data_phone: phone.value,
+	            data_mail: mail.value,
+	            data_address: address.value,
+	            data_sex: sex.value,
+	            data_date: thoigian
+	        },
+	        success: function(kq) {
+	            if(kq != null) {
+	                Swal.fire({
+	                    type: 'success',
+	                    title: 'Đăng kí thành công ' + kq.user,
+	                    text: 'Bạn sẽ được đăng nhập tự động',
+	                    confirmButtonText: 'Tuyệt'
 
+	                }).then((result) => {
+	                    // capNhatThongTinUser();
+	                    // showTaiKhoan(false);
+	                });
+	            }
+	        },
+	        error: function(e) {
+	            Swal.fire({
+	                type: "error",
+	                title: "Lỗi",
+	                html: e.responseText
+	            });
+	            // console.log(e.responseText)
+	        }
+	    });
+	}
+
+	// Kết thúc chỉnh sửa
+	
 	if(!t) e.preventDefault();
 }
 
