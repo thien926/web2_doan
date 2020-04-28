@@ -1,4 +1,5 @@
 // https://dbdiagram.io/d/5e7febf44495b02c3b88ea0f
+//https://dbdiagram.io/d/5e7febf44495b02c3b88ea0f
 Table KH as U {
   makh int [pk, increment] // auto-increment
   username varchar
@@ -78,7 +79,7 @@ Table Sach {
   tacgia varchar
   loaisach varchar
   nhaxuatban varchar
-  chitiet varchar
+  mota varchar
   soluong int
   giacu int
   giamoi int
@@ -87,7 +88,7 @@ Table Sach {
 }
 
 Ref: Sach.nhaxuatban > NXB.manxb  
-Ref: NV.manv < HOADON.manv
+// Ref: NV.manv < HOADON.manv
 Ref: KH.makh < HOADON.makh
 Ref: HOADON.mahd < CTHOADON.mahd
 Ref: Sach.masach < CTHOADON.masach
