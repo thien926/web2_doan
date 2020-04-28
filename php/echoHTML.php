@@ -83,7 +83,7 @@ function echo_form_dki(){
 		</div>
 		<div id="div_dki">
 			<div>ĐĂNG KÝ TÀI KHOẢN</div>
-			<form action="index.php" name="form_dki" method="">
+			<form action="index.php" name="form_dki" method="post">
 				<div>
 					<label>Họ tên<span>*</span></label>
 					<input type="text" name="name" placeholder="Họ và tên" />
@@ -116,7 +116,7 @@ function echo_form_dki(){
 				<span id="note_mail"></span>
 
 				<div>
-					<label>Địa chỉ<span>*</span></label>
+					<label>Địa chỉ<span></span></label>
 					<input type="text" name="address" placeholder="Địa chỉ" />
 				</div>
 				<span id="note_address"></span>
@@ -124,8 +124,8 @@ function echo_form_dki(){
 				<div>
 					<label>Giới tính<span>*</span></label>
 					<div id="input_sex">
-						<input type="radio" name="sex" value="nam"><span>Nam</span>
-						<input type="radio" name="sex" value="nu"><span>Nữ</span>
+						<input type="radio" name="sex" value="Nam"><span>Nam</span>
+						<input type="radio" name="sex" value="Nữ"><span>Nữ</span>
 					</div>
 				</div>
 				<span id="note_sex"></span>
