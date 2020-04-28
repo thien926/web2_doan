@@ -1,15 +1,28 @@
-// https://dbdiagram.io/d/5e7febf44495b02c3b88ea0f
 //https://dbdiagram.io/d/5e7febf44495b02c3b88ea0f
 Table KH as U {
   makh int [pk, increment] // auto-increment
-  username varchar
+  taikhoan varchar
   pass varchar
-  full_name varchar
-  sex varchar
-  born varchar
-  phone varchar
-  email varchar
-  address varchar
+  hoten varchar
+  gioitinh varchar
+  ngaysinh varchar
+  sdt varchar
+  thudientu varchar
+  diachi varchar
+  trangthai varchar
+}
+
+Table NguoiDung{
+  mand int [pk, increment] // auto-increment
+  maquyen int
+  taikhoan varchar
+  pass varchar
+  hoten varchar
+  gioitinh varchar
+  ngaysinh varchar
+  sdt varchar
+  thudientu varchar
+  diachi varchar
   trangthai varchar
 }
 
@@ -29,7 +42,6 @@ Table NV as U {
 Table HOADON {
   mahd int [pk]
   makh int
-  manv int
   tonggia int
   ngaylaphoadon int
   ngaynhanhang int
@@ -95,6 +107,3 @@ Ref: Sach.masach < CTHOADON.masach
 Ref: Tacgia.matg < Sach.tacgia
 Ref: Loaisach.maloai < Sach.loaisach
 Ref: MaKM.makm < Sach.makm
-
-
-// Ref: "Tacgia"."name" < "Tacgia"."id"
