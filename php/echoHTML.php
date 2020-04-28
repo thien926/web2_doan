@@ -114,6 +114,12 @@ function echo_form_dki(){
 					<input type="text" name="mail" placeholder="Thư điện tử" />
 				</div>
 				<span id="note_mail"></span>
+
+				<div>
+					<label>Địa chỉ<span>*</span></label>
+					<input type="text" name="address" placeholder="Địa chỉ" />
+				</div>
+				<span id="note_address"></span>
 				
 				<div>
 					<label>Giới tính<span>*</span></label>
