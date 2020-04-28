@@ -1,4 +1,4 @@
-
+// https://dbdiagram.io/d/5e7febf44495b02c3b88ea0f
 Table KH as U {
   makh int [pk, increment] // auto-increment
   username varchar
