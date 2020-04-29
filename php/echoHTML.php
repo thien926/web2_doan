@@ -19,7 +19,7 @@ function echo_head(){
 	</div>
 
 	<div id="head_link">
-		<div id="head_link_link">clever<span>book</span>.com</div>
+		<div id="head_link_link"><a href="index.php">clever<span>book</span>.com</a></div>
 		<div id="head_link_search">
 			<img src="img/icon/search.png">
 			<form action="" name="" method="">
