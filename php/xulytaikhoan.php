@@ -25,7 +25,8 @@
 		$address = $_POST['data_address'];
 		$sex = $_POST['data_sex'];
 		$date = $_POST['data_date'];
-		$status = (new nguoidungBus())->add_new(array(
+		
+		$status = (new nguoidungBus())->add_new_ND(array(
 			"mand" => "",
 			"taikhoan" => $user,
 			"matkhau" => $pass,
@@ -39,7 +40,12 @@
 			"trangthai" => 1
 		));
 
-		$sql = "SELECT * FROM nguoidung WHERE taikhoan='$user' AND matkhau='$pass' AND maquyen=1 AND trangthai=1";
+		if($status == null){
+			die (json_encode(null));
+			return;
+		}
+
+		$sql = "SELECT * FROM nguoidung WHERE taikhoan='$user' AND maquyen=1 AND trangthai=1";
 
 		$result = (new DB_driver())->get_row($sql);
 
@@ -47,6 +53,9 @@
 		    $_SESSION['currentUser']=$result;
 		    die (json_encode($result)); 
 		}  
+		else{
+			unset($_SESSION['currentUser']);
+		}
 
 		die (json_encode(null));
 	}
