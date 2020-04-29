@@ -188,7 +188,6 @@ function kiem_tra_dki(e){
 
 	//        Phần chỉnh sửa
 	var thoigian = date.value + "-" + month.value + "-" + year.value;
-	
 	if(t){
 		$.ajax({
 	        url: "php/xulytaikhoan.php",
@@ -210,14 +209,16 @@ function kiem_tra_dki(e){
 	            if(kq != null) {
 	                Swal.fire({
 	                    type: 'success',
-	                    title: 'Đăng kí thành công ' + kq.user,
+	                    title: 'Đăng kí thành công ' + kq.taikhoan,
 	                    text: 'Bạn sẽ được đăng nhập tự động',
 	                    confirmButtonText: 'Tuyệt'
 
-	                }).then((result) => {
-	                    // capNhatThongTinUser();
-	                    // showTaiKhoan(false);
 	                });
+	            }
+	            else{
+	            	t = false;
+	            	// document.getElementById('note_user').innerHTML = "Tài khoản đã tồn tại!";
+	            	$('#note_user').html("Tài khoản đã tồn tại!");
 	            }
 	        },
 	        error: function(e) {
