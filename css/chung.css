@@ -156,6 +156,10 @@ body{
 	color: #1c6b2d;
 }
 
+#head_link_link > a{
+	color: #1c6b2d;
+}
+
 #head_link_link span{
 	color: red;
 }
